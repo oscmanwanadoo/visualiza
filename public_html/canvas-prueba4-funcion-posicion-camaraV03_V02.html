@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<body>
+
+    <script>
+
+
+        function Punto(x, y, z)
+        {
+            this.X = x;
+            this.Y = y;
+            this.Z = z;
+            //	
+            // AÑADIR FUNCION DISTANCIA PUNTO A OTRO PUNTO
+            // 
+            this.distancia = function (Punto2)
+            {
+                var vectorDistancia = new Vector(this, Punto2);
+                return vectorDistancia.MODULO;
+            };
+        }
+        // funcion VECTOR
+        // Argumentos: (punto de origen,  punto final)
+
+        function Vector(P_Origen, P_Fin)
+        {
+            // Vector de formato (Vector.VX, Vector.VY, Vector.VZ)
+            // VALORES COMPONENTES VX, VY, VZ
+            // VALORES X,Y,Z SE USAN PARA VALORES COMPONENTES DE VECTOR UNITARIO
+            this.VX = P_Fin.X - P_Origen.X;
+            this.VY = P_Fin.Y - P_Origen.Y;
+            this.VZ = P_Fin.Z - P_Origen.Z;
+
+            // VALORES PUNTO ORIGEN DE VECTOR
+            this.Origen = P_Origen;
+
+            // VALOR MODULO DE VECTOR
+            this.MODULO = Math.sqrt((this.VX * this.VX) + (this.VY * this.VY) + (this.VZ * this.VZ));
+
+            // vector unitario formato (Vector.X, vector.Y, Vector.Z)
+            // VALORES DE VECTOR UNITARIO
+            this.X = this.VX / this.MODULO;
+            this.Y = this.VY / this.MODULO;
+            this.Z = this.VZ / this.MODULO;
+
+            // AÑADIR FUNCIONES:
+            // 1- FUNCION PROYECCION PUNTO EN VECTOR
+            // SUMA VECTORES
+            // 2- FUNCION PRODUCTO ESCALAR
+            // 3- FUNCION PRODUCTO VECTORIAL
+            // 4- FUNCION ANGULO ENTRE DOS VECTORES
+
+            this.suma = function (Vector2)
+            {
+                var P_Inicio = this.Origen;
+                var P_Final = new Punto(this.VX + Vector2.VX, this.VY + Vector2.VY, this.VZ + Vector2.VZ);
+                var VectorSuma = new Vector(P_Inicio, P_Final);
+                return VectorSuma;
+            }
+        }
+
+        function SistemaCoordenadas(PtoOrigen, VectorX, VectorY, VectorZ)
+        {
+            this.Origen = PtoOrigen;
+            //
+            // VectorX, VectorY y VectorZ son los vectores pasados como argumento
+            // no se revisa si son unitarios
+            // como mejora añadir convertir a unitarios antes de pasar al sistema de coordenadas
+            //
+            this.VectorX = VectorX;
+            this.VectorY = VectorY;
+            this.VectorZ = VectorZ;
+
+        }
+
+
+        function calcula_ejes_camara_Angulos(anguloAlfa, anguloBeta, dist)
+        {
+
+            // eje X : P0 -> P2
+            // eje Z : P0 -> (0,0,0)
+            // eje Y : P0 -> P1
+
+            var vector_ejes_X, vector_ejes_Y, vector_ejes_Z;
+            var P0_X = dist * Math.sin(anguloAlfa) * Math.cos(anguloBeta);
+            var P0_Y = dist * Math.cos(anguloAlfa) * Math.cos(anguloBeta);
+            var P0_Z = dist * Math.sin(anguloBeta);
+
+            // hZ : altura vector Z
+            var P1X = P0_X - hZ * Math.sin(anguloAlfa) * Math.sin(anguloBeta);
+            var P1Y = P0_Y - hZ * Math.cos(anguloAlfa) * Math.sin(anguloBeta);
+            var P1Z = P0Z + hZ * Math.cos(anguloBeta)
+            //
+
+            var P2_X = P0_X + Math.cos(anguloAlfa);
+            var P2_Y = P0_Y - Math.sin(anguloAlfa);
+            var P2_Z = P0_Z;
+
+            var P0 = new Punto(P0_X, P0_Y, P0_Z);
+            var P1 = new Punto(P1_X, P1_Y, P1_Z);
+            var P2 = new Punto(P2_X, P2_Y, P2_Z);
+
+            var vector_ejes_Z = new Vector(P0, P0, new Punto(0, 0, 0));
+            var vector_ejes_X = new Vector(P0, P0, P2);
+            var vector_ejes_Y = new Vector(P0, P0, P1);
+
+            // pendietne crear vector Z.
+            // producto vectorial vectorX y vector Y.
+            // var vector_ejes_Z = new ...
+
+            var SistemaCoordenadasCamara = new SistemaCoordenadas(P0, vector_ejes_X, vector_ejes_Y, vector_ejes_Z);
+            return SistemaCoordenadasCamara;
+
+        }
+
+        function calcula_ejes_camara_Puntos(ptoEnfoque, ptoOrigenCoordCamara)
+        {
+
+            // vectores de sistema de coordenadas de la camara
+            // camaraVectorX - eje X pantalla proyeccion
+            // camaraVectorY - eje Y pantalla proyeccion
+            // camaraVectorZ - eje Z - dirección pto origen pantalla hacia punto de enfoque
+
+            var camaraVectorZ = new Vector(ptoOrigenCoordCamara.Origen, ptoEnfoque.Origen);
+            //	var camaraVectorX = new Vector();
+            //	var camaraVectorY = new Vector();
+
+        }
+
+
+        function productoEscalar(Constante, Vector2)
+        {
+            // producto escalar
+            // VECTOR DE COMPONENTE PRODUCTO CONSTANTE * VECTOR DE CALCULO
+            // origen del vector resultado = origen de vector de cálculo
+            //
+            var P_Origen = new Punto(0, 0, 0);
+            var P_Fin = new Punto(Constante * Vector2.VX, Constante * Vector2.VY, Constante * Vector2.VZ);
+            var VectorResultado = new Vector(P_Origen, P_Fin);
+            VectorResultado.Origen = Vector2.Origen;
+            return VectorResultado;
+        }
+
+
+        function productoPunto(Vector1, Vector2)
+        {
+            var producto = (Vector1.VX * Vector2.VX) + (Vector1.VY * Vector2.VY) + (Vector1.VZ * Vector2.VZ);
+            return producto;
+
+        }
+
+
+        function proyeccion(Punto, Vector2)
+        {
+            var vectorPunto = new Vector(Vector2.Origen, Punto);
+
+            proyeccionVector = productoEscalar(productoPunto(Vector2, vectorPunto) / (Vector2.MODULO * Vector2.MODULO), Vector2);
+            return proyeccionVector;
+        }
+
+
+        document.write("<br>PUNTOS:");
+
+        var P0 = new Punto(8, 12, -5);
+        var P1 = new Punto(6, 5, 8);
+
+        document.write("<br>P0 x" + P0.X + " " + P0.Y + " " + P0.Z);
+        document.write("<br>P1 x" + P1.X + " " + P1.Y + " " + P1.Z);
+
+        var V0 = new Vector(P0, P1);
+        document.write("<br>V0 Vx");
+        document.write("<br>V0 Vx" + V0.VX + " VY " + V0.VY + " VZ " + V0.VZ);
+        document.write("<br>V0 x" + V0.X + " Y  " + V0.Y + " Z  " + V0.Z);
+        document.write("<br>V0 MOD" + V0.MODULO);
+        document.write("<br>V0 Origen");
+        document.write("<br>V0 Origen X" + V0.Origen.X + " Y " + V0.Origen.Y + " Z " + V0.Origen.Z);
+
+        var V1 = V0;
+        document.write("<br><br><br>NUEVO PUNTO<BR>");
+        var P0 = new Punto(15, 30, 10);
+        var P1 = new Punto(50, 10, -38);
+
+        document.write("<br>P0 x" + P0.X + " " + P0.Y + " " + P0.Z);
+        document.write("<br>P1 x" + P1.X + " " + P1.Y + " " + P1.Z);
+
+        var V0 = new Vector(P0, P1);
+        document.write("<br>V0 Vx");
+        document.write("<br>V0 Vx" + V0.VX + " VY " + V0.VY + " VZ " + V0.VZ);
+        document.write("<br>V0 x" + V0.X + " Y  " + V0.Y + " Z  " + V0.Z);
+        document.write("<br>V0 MOD" + V0.MODULO);
+        document.write("<br>V0 Origen");
+        document.write("<br>V0 Origen X" + V0.Origen.X + " Y " + V0.Origen.Y + " Z " + V0.Origen.Z);
+
+        document.write("<br><br><br>PRODUCTO ESCALAR 5<BR>");
+        var R = productoEscalar(5, V1);
+        document.write("<br>V0 Vx");
+        document.write("<br>V0 Vx" + R.VX + " " + R.VY + " " + R.VZ);
+        document.write("<br>V0 Origen X" + R.Origen.X + " Y " + R.Origen.Y + " Z " + R.Origen.Z);
+
+
+        var R = productoPunto(V1, V0);
+        document.write("<br>V1 V0x");
+        document.write("<br>V0 producto punto" + R);
+
+
+        var R = productoPunto(V0, V1);
+        document.write("<br>V0 V1");
+        document.write("<br>V0 producto punto" + R);
+
+
+        document.write("<br><br><br>PROYECION VECTOR <br>");
+
+        var P0 = new Punto(3, 10, 5);
+        var R = proyeccion(P0, V1);
+        document.write("<br>V0 Vx");
+        document.write("<br>V0 Vx" + V0.VX + " VY " + V0.VY + " VZ " + V0.VZ);
+        document.write("<br>V0 x" + V0.X + " Y  " + V0.Y + " Z  " + V0.Z);
+        document.write("<br>V0 MOD" + V0.MODULO);
+        document.write("<br>V0 Origen");
+        document.write("<br>V0 Origen X" + V0.Origen.X + " Y " + V0.Origen.Y + " Z " + V0.Origen.Z);
+
+
+        var CoordGLOBAL = new SistemaCoordenadas([0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]);
+        document.write("<br>CoordGLOBAL creada");
+
+    </script>
+
+</body>
+
+</html>

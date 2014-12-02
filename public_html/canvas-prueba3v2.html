@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Probando canvas</title>
+        <script>
+            window.onload = function () {
+                //Recibimos el elemento canvas
+                var elemento = document.getElementById('micanvas');
+                //Comprobaci�n sobre si encontramos un elemento
+                //y podemos extraer su contexto con getContext(), que indica compatibilidad con canvas
+                if (elemento && elemento.getContext) {
+                    //Accedo al contexto de '2d' de este canvas, necesario para dibujar
+                    var contexto = elemento.getContext('2d');
+                    if (contexto) {
+                        //Si tengo el contexto 2d es que todo ha ido bien y puedo empezar a dibujar en el canvas
+                        //Comienzo dibujando un rect�ngulo
+                        contexto.fillRect(0, 0, 320, 320);
+                        //cambio el color de estilo de dibujo a rojo
+                        contexto.fillStyle = '#f0f0f0';
+                        //dibujo otro rect�ngulo
+                        contexto.fillRect(10, 10, 300, 300);
+
+                        var OX = 160, OY = 160;
+
+                        // eje z
+                        contexto.strokeStyle = '#0000cc';
+                        contexto.beginPath();
+                        contexto.moveTo(OX, OY - 10);
+                        contexto.lineTo(OX, OY - 60);
+                        contexto.stroke();
+
+                        // eje y
+                        contexto.strokeStyle = '#00cc00';
+                        contexto.beginPath();
+                        contexto.moveTo(OX - 10, OY + 10);
+                        contexto.lineTo(OX - 60, OY + 40);
+                        contexto.stroke();
+
+                        // eje x
+                        contexto.strokeStyle = '#cc0000';
+                        contexto.beginPath();
+                        contexto.moveTo(OX + 10, OY + 10);
+                        contexto.lineTo(OX + 60, OY + 40);
+                        contexto.stroke();
+
+
+                        // punto
+                        contexto.fillStyle = '#cc0000';
+
+                        contexto.fillRect(OX, OY, 1, 1);
+
+                    }
+                }
+
+                var ORIGENX = 160, ORIGENY = 160;
+                var px = 0, py = 0;
+                var radianes_giroZ = 90;
+                var finX = 0, finY = 1;
+
+                elemento.onmousemove = function (e) {
+                    px = e.pageX - this.offsetLeft;
+                    py = e.pageY - this.offsetTop;
+
+                    var div = document.getElementById("coords");
+                    div.innerHTML = "x: " + px + " y: " + py;
+                    if (elemento.Btn === true) {
+                        radianes_giroZ = radianes_giroZ + (((px - OX) / 2) * Math.PI / 180);
+
+                        div.innerHTML = "Btn: " + elemento.Btn + " contador: " + contador + " OX= " + OX + " OY= " + OY + " Inc X = " + (px - OX) + "Inc Y = " + (py - OY) + " radianes_giroZ : " + radianes_giroZ + "finX : " + finX + " finY: " + finY;
+                        OX = px;
+
+                        // var elemento = document.getElementById('micanvas');
+                        // if (elemento && elemento.getContext) {
+                        // var contexto = elemento.getContext('2d');
+                        // if (contexto) {	
+                        /*	contexto.strokeStyle = '#f0f0f0';
+                         contexto.beginPath();
+                         contexto.moveTo(ORIGENX,ORIGENY);
+                         contexto.lineTo(ORIGENX + finX, ORIGENY - finY);
+                         contexto.stroke();
+                         */
+
+
+                        finX = Math.cos(radianes_giroZ);
+                        finY = Math.sin(radianes_giroZ);
+                        finX = finX * 50;
+                        finY = finY * 50;
+
+                        // borra canvas mediante dibujo de rectangulo gris
+                        contexto.fillStyle = '#f0f0f0';
+                        contexto.fillRect(10, 10, 300, 300);
+
+                        // dibuja linea nueva posicion
+                        //
+                        contexto.strokeStyle = '#cc0000';
+                        contexto.beginPath();
+                        contexto.moveTo(ORIGENX, ORIGENY);
+                        contexto.lineTo(ORIGENX + finX, ORIGENY - finY);
+                        contexto.stroke();
+                        //		}
+                        //	}
+
+
+                    }
+                };
+
+                var contador = 0;
+                var OX = 0, OY = 0;
+
+                elemento.onmousedown = function (e) {
+                    contador = contador + 1;
+                    OX = px;
+                    OY = py;
+                    elemento.Btn = true;
+                    var div = document.getElementById("estadoBtn");
+                    div.innerHTML = "Btn: " + elemento.Btn + " contador: " + contador + " OX= " + OX + " OY= " + OY + " Inc X = " + (px - OX) + "Inc Y = " + (py - OY);
+                };
+                
+                elemento.onmouseup = function (e) {
+                    contador = contador - 1;
+                    OX = 0;
+                    OY = 0;
+                    elemento.Btn = false;
+                    var div = document.getElementById("estadoBtn");
+                    div.innerHTML = "Btn: " + elemento.Btn + " contador: " + contador + " OX= " + OX + " OY= " + OY + " Inc X = " + (px - OX) + "Inc Y = " + (py - OY);
+                };
+
+                elemento.onmouseout = function (e) {
+                    contador = contador - 1;
+                    OX = 0;
+                    OY = 0;
+                    elemento.Btn = false;
+                    var div = document.getElementById("estadoBtn");
+                    div.innerHTML = "Btn: " + elemento.Btn + " contador: " + contador + " OX= " + OX + " OY= " + OY + " Inc X = " + (px - OX) + "Inc Y = " + (py - OY);
+                };
+
+                /*
+                 *
+                 * CODIGO DETECCION RATON Y PULSACION BOTONES
+                 *
+                 
+                 canvas.onmousemove = function (e) { 
+                 var x = e.pageX - this.offsetLeft;
+                 var y = e.pageY - this.offsetTop;
+                 
+                 var div = document.getElementById("coords");
+                 div.innerHTML = "x: " + x + " y: " + y; 
+                 }; 
+                 
+                 En este c�digo he asociado un evento para capturar el movimiento del cursor, de modo que cuando se mueve, sus coordenadas horizontal y vertical se muestran en la p�gina. Sencillo y limpio. Para conseguir algo m�s avanzado, he intentado convertir al canvas en algo parecido a un trozo de papel o una pizarra, en donde se pueda dibujar. Bueno, el c�digo para esto no es demasiado complicado, lo pongo aqu� completo:
+                 
+                 var canvas = document.getElementById("myCanvas");
+                 var context = canvas.getContext("2d");
+                 
+                 context.fillCircle = function (x, y, radius, fillColor) {
+                 this.fillStyle = fillColor;
+                 this.beginPath();
+                 this.moveTo(x, y);
+                 this.arc(x, y, radius, 0, Math.PI * 2, false);
+                 this.fill();
+                 };
+                 
+                 context.clearTo = function (fillColor) {
+                 context.fillStyle = fillColor;
+                 context.fillRect(0, 0, canvas.width, canvas.height);
+                 };
+                 
+                 context.clearTo("#ddd");
+                 canvas.onmousemove = function (e) {
+                 if (!canvas.isDrawing) return;
+                 var x = e.pageX - this.offsetLeft;
+                 var y = e.pageY - this.offsetTop;
+                 
+                 var div = document.getElementById("coords");
+                 div.innerHTML = "x: " + x + " y: " + y;
+                 var radius = 10;
+                 var fillColor = '#ff0000';
+                 context.fillCircle(x, y, radius, fillColor);
+                 };
+                 canvas.onmousedown = function (e) {
+                 canvas.isDrawing = true;
+                 };
+                 canvas.onmouseup = function (e) {
+                 canvas.isDrawing = false;
+                 }; 
+                 
+                 */
+
+            }
+
+
+
+
+
+        </script>
+    </head>
+    <body>
+        <canvas id="micanvas" width="350" height="350">
+            Este texto se muestra para los navegadores no compatibles con canvas.
+            <br>
+            Por favor, utiliza Firefox, Chrome, Safari u Opera.
+        </canvas>
+        <br>
+        DEBAJO VIENE EL SLIDER:
+        <BR>
+        <input type="range">
+        <br>
+        debajo viene las coordenadas:
+        <br>
+        <div id="coords"></div>
+        <div id="estadoBtn"></div>
+
+    </body>
+</html>
