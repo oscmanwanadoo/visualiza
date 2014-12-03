@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Probando canvas</title>
+
+<script src="js/puntos-vectores.js" type="text/javascript"></script>
+<script src="js/vectores-operaciones.js" type="text/javascript"></script>
+<script src="js/puntos-vectores-cambio coordenadas.js" type="text/javascript"></script>
+
+<script>
+
+
+var O = new Punto3D (0, 0, 0);
+var F = new Punto3D (1, 0, 0);
+var V1 = new Vector(O,F);
+V1.escribe();
+
+var O = new Punto3D (0, 0, 0);
+var F = new Punto3D (0, 1, 0);
+var V2 = new Vector(O,F);
+V2.escribe();
+
+var VPV= productoVectorial (V1, V2);
+VPV.escribe();
+
+var O = new Punto3D (0, 0, 0);
+var F = new Punto3D (0, 1, 0);
+var V1 = new Vector(O,F);
+V1.escribe();
+
+var O = new Punto3D (0, 0, 0);
+var F = new Punto3D (1, 0, 0);
+var V2 = new Vector(O,F);
+V2.escribe();
+
+var VPV= productoVectorial (V1, V2);
+VPV.escribe();
+
+
+
+var P = new Punto3D (3, 0.3, 4.5);
+var O = new Punto3D (3, 3, 1);
+var F = new Punto3D (5, 4.5, 4);
+var angulo = 5.5;
+
+document.write("<br>Nuvo vector para girar : <br>");
+var V = new Vector(O,F);
+V.escribe();
+
+var PR = rotacionPuntoVector (V, P, angulo);
+document.write("<br>Punto girado (X,Y,Z) : ( " + PR.X + " , " + PR.Y +" , "+ PR.Z + ")<br>");
+
+var P = new Punto3D (1, 1, 1);
+var O = new Punto3D (2, 2, 1);
+var F = new Punto3D (3, 2, 1);
+var angulo = 3.141592654/2;
+
+document.write("<br>Nuevo vector para girar : <br>");
+var V = new Vector(O,F);
+V.escribe();
+
+var PR = rotacionPuntoVector (V, P, angulo);
+document.write("<br>Punto girado (X,Y,Z) : ( " + PR.X + " , " + PR.Y +" , "+ PR.Z + ")<br>");
+
+
+var P = new Punto3D (1, 1, 1);
+var O = new Punto3D (2, 2, 1);
+var F = new Punto3D (2, 2, 0);
+var angulo = 3.141592654 / 2;
+
+document.write("<br>Nuevo vector para girar : <br>");
+var V = new Vector(O,F);
+V.escribe();
+
+var PR = rotacionPuntoVector (V, P, angulo);
+document.write("<br>Punto girado (X,Y,Z) : ( " + PR.X + " , " + PR.Y +" , "+ PR.Z + ")<br>");
+</script>
+</head>
+<body>
+
+
+</body>
+</html>
