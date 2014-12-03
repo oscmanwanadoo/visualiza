@@ -1,4 +1,16 @@
 ﻿
+function SistemaCoordenadas(PtoOrigen, VectorX, VectorY, VectorZ) {
+	this.Origen = PtoOrigen;
+	//
+	// VectorX, VectorY y VectorZ son los vectores pasados como argumento
+	// no se revisa si son vectores unitarios
+	// como mejora añadir convertir a unitarios antes de pasar al sistema de coordenadas
+	//
+	this.VectorX = VectorX;
+	this.VectorY = VectorY;
+	this.VectorZ = VectorZ;
+
+}
 
 
 
