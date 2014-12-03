@@ -1,4 +1,4 @@
-function Punto3D(x, y, z)
+﻿function Punto3D(x, y, z)
 {
     this.X = x;
     this.Y = y;
@@ -48,6 +48,15 @@ function Vector(P_Origen, P_Fin)
         var VectorSuma = new Vector(P_Inicio, P_Final);
         return VectorSuma;
     };
+
+
+	this.escribe = function ()
+		{
+		document.write("Origen: (" + this.Origen.X + ", " + this.Origen.Y + ", " + this.Origen.Z + ") <br>");
+		document.write("(VX, VY, VZ) : (" + this.VX + ", " + this.VY + ", " + this.VZ + ") <br>");
+		document.write("(X, Y, Z) : (" + this.X + ", " + this.Y + ", " + this.Z + ") <br>");
+		document.write("Modulo : " + this.MODULO + " <br>");
+		}
 }
 
 
