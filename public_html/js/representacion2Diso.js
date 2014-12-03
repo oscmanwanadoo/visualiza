@@ -63,8 +63,9 @@ function dibujaObjeto (Objeto, escala, contexto, corrector)
 		// var nVini = Objeto.Arista[nArista][0];
 		// var nVfin = Objeto.Arista[nArista][1];
 		
-// en objetos importados el primer punto es 1 en lugar de 0
 //
+// en objetos importados el primer punto es 1 en lugar de 0 => corrector = 1
+// 
 		var nVini = Objeto.Arista[nArista][0] - corrector;
 		var nVfin = Objeto.Arista[nArista][1] - corrector;
 		
@@ -98,7 +99,7 @@ function dibujaObjeto (Objeto, escala, contexto, corrector)
 	// origen coordenadss en panatalla
 	// por defecto 200,200
 
-
+/*
 	// eje z
 			var OX=200, OY=200;
 			contexto.strokeStyle = '#0000cc';
@@ -106,11 +107,12 @@ function dibujaObjeto (Objeto, escala, contexto, corrector)
 			contexto.moveTo(OX,OY-10);
 			contexto.lineTo(OX,OY-60);
 			contexto.stroke();
+*/
 	
 	contexto.strokeStyle = colorArista;
 	contexto.beginPath();
-	contexto.moveTo(200 + proyP0.X,200 - proyP0.Y);
-	contexto.lineTo(200 + proyP1.X,200 - proyP1.Y);
+	contexto.moveTo(200 + proyP0.X, 200 - proyP0.Y);
+	contexto.lineTo(200 + proyP1.X, 200 - proyP1.Y);
 	contexto.stroke();
 	}
 //
@@ -123,14 +125,6 @@ function dibujaLinea (P1X, P1Y, P2X, P2Y, colorLinea, contexto)
 	{
 
 
-	// eje z
-			var OX=200, OY=200;
-			contexto.strokeStyle = '#0000cc';
-			contexto.beginPath();
-			contexto.moveTo(OX,OY-10);
-			contexto.lineTo(OX,OY-60);
-			contexto.stroke();
-	
 	contexto.strokeStyle = colorLinea;
 	contexto.beginPath();
 	contexto.moveTo(200 + P1X,200 + P1Y);

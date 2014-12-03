@@ -32,25 +32,26 @@
                         contexto.fillRect(10, 10, 380, 380);
 
                         var OX = 200, OY = 200;
-
-                        // eje z
-                        contexto.strokeStyle = '#0000cc';
+// dibuja ejes de fondo
+//
+//                      // eje z
+                        contexto.strokeStyle = '#cccccc';
                         contexto.beginPath();
                         contexto.moveTo(OX, OY - 10);
                         contexto.lineTo(OX, OY - 60);
-                        contexto.stroke();
+//                        contexto.stroke();
 
 
                         // eje y
-                        contexto.strokeStyle = '#00cc00';
-                        contexto.beginPath();
+//                       contexto.strokeStyle = '#cccccc';
+//                        contexto.beginPath();
                         contexto.moveTo(OX - 10, OY + 10);
                         contexto.lineTo(OX - 60, OY + 40);
-                        contexto.stroke();
+//                        contexto.stroke();
 
                         // eje x
-                        contexto.strokeStyle = '#cc0000';
-                        contexto.beginPath();
+//                        contexto.strokeStyle = '#cccccc';
+//                        contexto.beginPath();
                         contexto.moveTo(OX + 10, OY + 10);
                         contexto.lineTo(OX + 60, OY + 40);
                         contexto.stroke();
@@ -58,7 +59,7 @@
 
 
                         // punto
-                        contexto.fillStyle = '#cc0000';
+                        contexto.fillStyle = '#cccccc';
                         contexto.fillRect(OX, OY, 1, 1);
 
 
@@ -101,7 +102,7 @@
                          */
                         
   
-dibujaObjeto(ObjetoEjesCoordenadas, 20, contexto, 0);
+// dibujaObjeto(ObjetoEjesCoordenadas, 20, contexto, 0);
   
   
                         //var Punto0 = new Punto3D(0,0,0);
@@ -112,23 +113,23 @@ dibujaObjeto(ObjetoEjesCoordenadas, 20, contexto, 0);
 
 	//dibujaObjeto(ObjetoNave, 10, contexto, 1);
 
-	var P0 = new Punto3D(0, 0, 0);
-	var PX = new Punto3D(0, -1, 0);
-	var PY = new Punto3D(1, 0, 0);
-	var PZ = new Punto3D(0, 0, 1);
+	var P0 = new Punto3D(50, 0, 0);
+	var PX = new Punto3D(50, -1, 0);
+	var PY = new Punto3D(51, 0, 0);
+	var PZ = new Punto3D(50, 0, 1);
 	var VX = new Vector(P0, PX);
 	var VY = new Vector(P0, PY);
 	var VZ = new Vector(P0, PZ);
 	//document.write("llamada a nuevo sistcoord	<br>");
-	var SistCoordDespl = new SistemaCoordenadas(P0, VX, VY, VZ);
+	// var SistCoordDespl = new SistemaCoordenadas(P0, VX, VY, VZ);
 	//document.write("llamada a dibuja obj desplazado	<br>	");
 
-	// dibujaObjetoDesplazado(ObjetoEjesCoordenadas, SistCoordDespl, 20, contexto, 0);
+// dibujaObjetoDesplazado(ObjetoEjesCoordenadas, SistCoordDespl, 10, contexto, 0);
 
-	dibujaObjetoDesplazado(ObjetoNave, SistCoordDespl, 20, contexto, 1);
+// dibujaObjetoDesplazado(ObjetoNave, SistCoordDespl, 20, contexto, 1);
 	//document.write("pasada llamda dibuja obj despl<br>");
 
-	//		dibujaObjeto (ObjetoCubo, 20, contexto, 0);
+		dibujaObjeto (ObjetoCubo, 20, contexto, 0);
 
 	//	dibujaObjeto (ObjetoPiramide, 40, contexto, 0);
 
