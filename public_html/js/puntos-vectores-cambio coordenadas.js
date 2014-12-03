@@ -27,7 +27,7 @@ var G_X = SCL_PO.X + (VL_X.X * PtoCoordLocal.X) + (VL_Y.X * PtoCoordLocal.Y) + (
 var G_Y = SCL_PO.Y + (VL_X.Y * PtoCoordLocal.X) + (VL_Y.Y * PtoCoordLocal.Y) + (VL_Z.Y * PtoCoordLocal.Z) ;
 var G_Z = SCL_PO.Z + (VL_X.Z * PtoCoordLocal.X) + (VL_Y.Z * PtoCoordLocal.Y) + (VL_Z.Z * PtoCoordLocal.Z) ;
 
-var PtoCoordGlob = new Punto3D (G_X, G_Y, GZ);
+var PtoCoordGlob = new Punto3D (G_X, G_Y, G_Z);
 return PtoCoordGlob;
 
 }
